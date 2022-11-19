@@ -5,28 +5,28 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Sale } from "../../models/sale";
 import { BASE_URL } from "../../utils/request";
 import NotificationButton from "../NotificationButton"
-import "./styles.css"
+import "./styles.css";
 
 function SalesCard() {
 
     const min = new Date(new Date().setDate(new Date().getDate() - 365));
     const max = new Date();
 
-    const [MinDate, setMinDate] = useState(min);
-    const [MaxDate, setMaxDate] = useState(max);
+    const [minDate, setMinDate] = useState(min);
+    const [maxDate, setMaxDate] = useState(max);
 
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
 
-        const dmin = MinDate.toISOString().slice(0, 10);
-        const dmax = MaxDate.toISOString().slice(0, 10);
+        const dmin = minDate.toISOString().slice(0, 10);
+        const dmax = maxDate.toISOString().slice(0, 10);
         
         axios.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
             .then(response => {
                 setSales(response.data.content);
             });
-    }, [MinDate, MaxDate]);
+    }, [minDate, maxDate]);
 
     return (
         <>
@@ -35,7 +35,7 @@ function SalesCard() {
                 <div>
                     <div className="dsmeta-form-control-container">
                         <DatePicker
-                            selected={MinDate}
+                            selected={minDate}
                             onChange={(date: Date) => setMinDate(date)}
                             className="dsmeta-form-control"
                             dateFormat="dd/MM/yyyy"
@@ -43,7 +43,7 @@ function SalesCard() {
                     </div>
                     <div className="dsmeta-form-control-container">
                         <DatePicker
-                            selected={MaxDate}
+                            selected={maxDate}
                             onChange={(date: Date) => setMaxDate(date)}
                             className="dsmeta-form-control"
                             dateFormat="dd/MM/yyyy"
